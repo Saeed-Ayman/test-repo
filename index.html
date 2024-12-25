@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite App</title>
+  </head>
+  <body>
+    <form id="form" onsubmit="return onSubmit(event)">
+      <input type="text" name="username" value="eshfaa@gmail.com" placeholder="Username" />
+      <input type="password" name="password" value="" placeholder="Password" />
+
+      <button type="submit">Login</button>
+    </form>
+
+    <div id="app"></div>
+    <script>
+      async function onSubmit(e) {
+        e.preventDefault();
+
+        const form = document.querySelector('#form');
+        const username = form.username.value;
+        const password = form.password.value;
+
+        const data = {
+          email: username,
+          password,
+        }
+
+        console.log(data);
+
+        let response = {};
+
+        try {
+          const res = await fetch('https://laravel.eshfaa.net/api/auth/admin/login', {
+            method: 'POST',
+            body: JSON.stringify(data),
+          });
+
+          response = await res.json();
+        } catch (error) {
+          response.error = error;
+        }
+
+        document.querySelector('#app').innerHTML = JSON.stringify(response);
+      }
+    </script>
+  </body>
+</html>
